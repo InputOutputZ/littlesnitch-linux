@@ -3,7 +3,7 @@
 
 let rulesCurrentList = [];
 let rulesDisplayedList = [];
-const ruleSelection = FooterApp.createMultiSelection({
+const ruleSelection = window.createMultiSelection({
   getCount: () => rulesDisplayedList.length,
   getItemByIndex: (i) => rulesDisplayedList[i],
   getId: (rule) => rule.id,
@@ -51,7 +51,7 @@ function ruleDirectionArrow(direction) {
     case 3: suffix = 'bidirectional'; break;
     default: suffix = 'outgoing';
   }
-  return `<svg width="20" height="20" fill="currentColor"><use href="sprite/sprite.svg#rule-${suffix}"/></svg>`;
+  return `<svg width="20" height="20" fill="currentColor"><use href="#rule-${suffix}"/></svg>`;
 }
 
 function ruleDirectionLabel(direction) {
@@ -104,7 +104,7 @@ function ruleActionLabel(action) {
 
 function ruleActionSVG(action) {
   const suffix = normalizedRuleAction(action) === 'allow' ? 'allow' : 'deny';
-  return `<svg width="14" height="14"><use href="sprite/sprite.svg#rule-${suffix}" /></svg>`;
+  return `<svg width="14" height="14"><use href="#rule-${suffix}" /></svg>`;
 }
 
 function ruleActionEmoji(action) {
@@ -1039,7 +1039,7 @@ function renderRuleTable(ruleList) {
       addBtn.className = 'blocklist-add-button';
       addBtn.setAttribute('aria-label', window._localization.t('btn-add-rule'));
       addBtn.title = window._localization.t('btn-add-rule');
-      addBtn.innerHTML = '<svg width="14" height="14" fill="currentColor"><use href="sprite/sprite.svg#btn-add"/></svg>';
+      addBtn.innerHTML = '<svg width="14" height="14" fill="currentColor"><use href="#btn-add"/></svg>';
       addBtn.addEventListener('click', () => {
         openRuleModal(null);
       });
@@ -1051,7 +1051,7 @@ function renderRuleTable(ruleList) {
       deleteSelectedBtn.setAttribute('data-role', 'delete-selected-rules');
       deleteSelectedBtn.setAttribute('aria-label', window._localization.t('btn-delete-rules'));
       deleteSelectedBtn.title = window._localization.t('btn-delete-rules');
-      deleteSelectedBtn.innerHTML = '<svg width="18" height="18" fill="currentColor"><use href="sprite/sprite.svg#btn-remove"/></svg>';
+      deleteSelectedBtn.innerHTML = '<svg width="18" height="18" fill="currentColor"><use href="#btn-remove"/></svg>';
       deleteSelectedBtn.disabled = ruleSelection.size === 0;
       deleteSelectedBtn.addEventListener('click', () => {
         if (ruleSelection.size === 0) {
@@ -1187,7 +1187,7 @@ function renderRuleTable(ruleList) {
     editBtn.type = 'button';
     editBtn.className = 'rule-row-btn';
     editBtn.title = window._localization.t('btn-edit-rule');
-    editBtn.innerHTML = '<svg width="14" height="14" fill="currentColor"><use href="sprite/sprite.svg#rule-edit"/></svg>';
+    editBtn.innerHTML = '<svg width="14" height="14" fill="currentColor"><use href="#rule-edit"/></svg>';
     editBtn.addEventListener('click', (event) => {
       event.stopPropagation();
       if (rule.id < 0) {
@@ -1202,7 +1202,7 @@ function renderRuleTable(ruleList) {
     deleteBtn.type = 'button';
     deleteBtn.className = 'rule-row-btn rule-row-btn-danger';
     deleteBtn.title = window._localization.t('btn-delete-rule');
-    deleteBtn.innerHTML = '<svg width="14" height="14" fill="currentColor"><use href="sprite/sprite.svg#rule-delete"/></svg>';
+    deleteBtn.innerHTML = '<svg width="14" height="14" fill="currentColor"><use href="#rule-delete"/></svg>';
     deleteBtn.addEventListener('click', (event) => {
       event.stopPropagation();
       if (rule.id < 0) {
@@ -1330,6 +1330,7 @@ function handleSetRules(msg) {
   const rules = Array.isArray(msg.rules) ? msg.rules : [];
   applyRulesData(rules);
 }
+window.handleSetRules = handleSetRules;
 
 let rulesUpdateTimer = null;
 
@@ -1417,3 +1418,4 @@ function handleUpdateRules(msg) {
 
   applyUpdateRules(rulesRemoved, rulesAdded, addedIndexes, updatedIds);
 }
+window.handleUpdateRules = handleUpdateRules;

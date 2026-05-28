@@ -26,7 +26,7 @@ let addUserEntriesDialog = null;
 let addUserEntriesError = null;
 let addUserEntriesText = null;
 let addUserEntriesNamesAreHosts = null;
-const userEntrySelection = FooterApp.createMultiSelection({
+const userEntrySelection = window.createMultiSelection({
   getCount: () => {
     const d = ensureBlocklistDetails(getSelectedBlocklistId());
     return d ? d.totalEntries : 0;
@@ -303,6 +303,7 @@ function handleSetBlocklistEntryLocation(msg) {
   renderBlocklistDetails();
   tryCompletePendingLocate();
 }
+window.handleSetBlocklistEntryLocation = handleSetBlocklistEntryLocation;
 
 function setAddBlocklistError(message) {
   if (!addBlocklistError) {
@@ -705,7 +706,7 @@ function setupBlocklistHeaderAddButton() {
   addButton.setAttribute('data-role', 'add-blocklist');
   addButton.setAttribute('aria-label', window._localization.t('btn-add-blocklist'));
   addButton.title = window._localization.t('btn-add-blocklist');
-  addButton.innerHTML = '<svg width="14" height="14" fill="currentColor"><use href="sprite/sprite.svg#btn-add"/></svg>';
+  addButton.innerHTML = '<svg width="14" height="14" fill="currentColor"><use href="#btn-add"/></svg>';
   addButton.addEventListener('click', () => {
     openBlocklistModal(null);
   });
@@ -740,7 +741,7 @@ function setupBlocklistDetailsHeaderAddButton() {
     addButton.setAttribute('data-role', 'add-user-entries');
     addButton.setAttribute('aria-label', window._localization.t('btn-add-entries'));
     addButton.title = window._localization.t('btn-add-entries');
-    addButton.innerHTML = '<svg width="14" height="14" fill="currentColor"><use href="sprite/sprite.svg#btn-add"/></svg>';
+    addButton.innerHTML = '<svg width="14" height="14" fill="currentColor"><use href="#btn-add"/></svg>';
     addButton.hidden = true;
     addButton.addEventListener('click', () => {
       openUserEntriesModal();
@@ -753,7 +754,7 @@ function setupBlocklistDetailsHeaderAddButton() {
     removeButton.setAttribute('data-role', 'remove-user-entries');
     removeButton.setAttribute('aria-label', window._localization.t('btn-remove-entries'));
     removeButton.title = window._localization.t('btn-remove-entries');
-    removeButton.innerHTML = '<svg width="18" height="18" fill="currentColor"><use href="sprite/sprite.svg#btn-remove"/></svg>';
+    removeButton.innerHTML = '<svg width="18" height="18" fill="currentColor"><use href="#btn-remove"/></svg>';
     removeButton.hidden = true;
     removeButton.disabled = true;
     removeButton.addEventListener('click', () => {
@@ -1529,6 +1530,7 @@ function handleSetBlocklists(msg) {
 
   applySetBlocklists(msg);
 }
+window.handleSetBlocklists = handleSetBlocklists;
 
 function handleSetBlocklistDetails(msg) {
   const blocklistId = msg.blocklistId;
@@ -1551,6 +1553,7 @@ function handleSetBlocklistDetails(msg) {
     tryCompletePendingLocate();
   }
 }
+window.handleSetBlocklistDetails = handleSetBlocklistDetails;
 
 function handleSetBlocklistEntries(msg) {
   const blocklistId = msg.blocklistId;
@@ -1599,6 +1602,7 @@ function handleSetBlocklistEntries(msg) {
     tryCompletePendingLocate();
   }
 }
+window.handleSetBlocklistEntries = handleSetBlocklistEntries;
 
 setupBlocklistHeaderAddButton();
 setupBlocklistDetailsHeaderAddButton();

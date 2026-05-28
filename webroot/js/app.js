@@ -137,50 +137,50 @@
     for (const msg of messageArray) {
       switch (msg.update) {
         case "clearConnectionRows":
-          handleClear();
+          window.handleClear();
           break;
         case "insertConnectionRows":
-          handleInsertRows(msg.afterId, msg.rows, msg.animate);
+          window.handleInsertRows(msg.afterId, msg.rows, msg.animate);
           break;
         case "removeConnectionRows":
-          handleRemoveRows(msg.startId, msg.endId);
+          window.handleRemoveRows(msg.startId, msg.endId);
           break;
         case "moveConnetionRows":
-          handleMoveRows(msg.startId, msg.endId, msg.targetId);
+          window.handleMoveRows(msg.startId, msg.endId, msg.targetId);
           break;
         case "updateConnectionRows":
-          handleUpdateRows(msg.rows);
-          handleUpdateStatistics(msg.statistics);
+          window.handleUpdateRows(msg.rows);
+          window.handleUpdateStatistics(msg.statistics);
           break;
         case "updateRuleButtons":
-          handleUpdateRuleButtons(msg.rows);
+          window.handleUpdateRuleButtons(msg.rows);
           break;
         case "highlightRuleForRows":
-          highlightRuleButtons(msg.ids, msg.action);
+          window.highlightRuleButtons(msg.ids, msg.action);
           break;
         case "trafficEvents":
-          handleEvents(msg.data);
+          window.handleEvents(msg.data);
           break;
         case "setInspector":
-          handleSetInspector(msg);
+          window.handleSetInspector(msg);
           break;
         case "setBlocklists":
-          handleSetBlocklists(msg);
+          window.handleSetBlocklists(msg);
           break;
         case "setRules":
-          handleSetRules(msg);
+          window.handleSetRules(msg);
           break;
         case "updateRules":
-          handleUpdateRules(msg);
+          window.handleUpdateRules(msg);
           break;
         case "setBlocklistDetails":
-          handleSetBlocklistDetails(msg);
+          window.handleSetBlocklistDetails(msg);
           break;
         case "setBlocklistEntries":
-          handleSetBlocklistEntries(msg);
+          window.handleSetBlocklistEntries(msg);
           break;
         case "setBlocklistEntryLocation":
-          handleSetBlocklistEntryLocation(msg);
+          window.handleSetBlocklistEntryLocation(msg);
           break;
         case "setBlocklistStatus":
           handleSetBlocklistStatus(msg);
@@ -204,7 +204,7 @@
           handleSetLoginData(msg);
           break;
         case "localizationTable":
-          setLocalizationTable(msg.table);
+          window.setLocalizationTable(msg.table);
           window.applyConnectionsSort?.();
           window.rebuildTrafficPlot?.();
           refreshLogoutLabel();
@@ -231,7 +231,7 @@
     const themeToggle = document.querySelector('button.theme-toggle');
     if (themeToggle != null) {
       const themeName = value ?? "automatic";
-      themeToggle.innerHTML = `<svg width=\"18\" height=\"18\" fill=\"currentColor\"><use href="sprite/sprite.svg#theme-${themeName}\" href=\"sprite/sprite.svg#theme-${themeName}\"/></svg>`;
+      themeToggle.innerHTML = `<svg width=\"18\" height=\"18\" fill=\"currentColor\"><use href="#theme-${themeName}\" href=\"#theme-${themeName}\"/></svg>`;
     }
     document.querySelectorAll('[data-role="theme-option"]').forEach((item) => {
       item.classList.toggle("is-selected", item.dataset.value === (value ?? ""));

@@ -255,7 +255,7 @@ function arrowFor(dir) {
     case 3: suffix = 'bidirectional'; break;
     default: suffix = 'outgoing';
   }
-  return `<svg width="18" height="18" fill="currentColor"><use href="sprite/sprite.svg#rule-${suffix}"/></svg>`;
+  return `<svg width="18" height="18" fill="currentColor"><use href="#rule-${suffix}"/></svg>`;
 }
 
 /**
@@ -265,7 +265,7 @@ function arrowFor(dir) {
  */
 function emojiFor(action) {
   const suffix = action.toLowerCase() === 'allow' ? 'allow' : 'deny';
-  return `<svg width="14" height="14"><use href="sprite/sprite.svg#rule-${suffix}"/></svg>`;
+  return `<svg width="14" height="14"><use href="#rule-${suffix}"/></svg>`;
 }
 
 /* ---------------------  Rendering Code  --------------------- */
@@ -441,7 +441,7 @@ function renderBlocklistEntry(entry, withEnableButton) {
   // Emoji
   const emoji = document.createElement('span');
   emoji.className = 'emoji';
-  emoji.innerHTML = '<svg width="12" height="12"><use href="sprite/sprite.svg#rule-blocklist"/></svg>';
+  emoji.innerHTML = '<svg width="12" height="12"><use href="#rule-blocklist"/></svg>';
   container.appendChild(emoji);
 
   // Value (host / domain / IP)
@@ -916,6 +916,7 @@ function handleClear() {
   pendingSelectionRecovery = null;
   listEl.innerHTML = '';
 }
+window.handleClear = handleClear;
 
 function handleInsertRows(afterID, rows, animate) {
   const frag = document.createDocumentFragment();
@@ -971,7 +972,7 @@ function handleInsertRows(afterID, rows, animate) {
     }, { once: true });
   }
 }
-
+window.handleInsertRows = handleInsertRows;
 
 function handleRemoveRows(startID, endID) {
   let lastElement = document.getElementById(htmlID(endID));
@@ -1022,6 +1023,7 @@ function handleRemoveRows(startID, endID) {
   };
   firstElement.addEventListener('transitionend', onRemoveTransitionEnd);
 }
+window.handleRemoveRows = handleRemoveRows;
 
 function handleMoveRows(startID, endID, targetID) {
   let lastElement = document.getElementById(htmlID(endID));
@@ -1096,6 +1098,7 @@ function handleMoveRows(startID, endID, targetID) {
   }
 
 }
+window.handleMoveRows = handleMoveRows;
 
 function updateElement(rowEl, selector, text) {
   let span = rowEl.querySelector(selector);
@@ -1162,6 +1165,7 @@ function handleUpdateStatistics(statistics) {
     }
   }
 }
+window.handleUpdateStatistics = handleUpdateStatistics;
 
 function handleUpdateRows(rows) {
   for (const row of rows) {
@@ -1182,6 +1186,7 @@ function handleUpdateRows(rows) {
     }
   }
 }
+window.handleUpdateRows = handleUpdateRows;
 
 function attachRuleButton(rowEl, row) {
   const ruleButton = rowEl.querySelector('.rule-button');
@@ -1197,36 +1202,36 @@ function attachRuleButton(rowEl, row) {
       let buttonText;
       switch (row.rule) {
         case 'allowByDefault':
-          buttonText = '<svg width="14" height="14"><use href="sprite/sprite.svg#rule-allow" opacity="0.5"/></svg>';
+          buttonText = '<svg width="14" height="14"><use href="#rule-allow" opacity="0.5"/></svg>';
           break;
         case 'allowByRule':
-          buttonText = '<svg width="14" height="14"><use href="sprite/sprite.svg#rule-allow"/></svg>';
+          buttonText = '<svg width="14" height="14"><use href="#rule-allow"/></svg>';
           break;
         case 'denyByDefault':
-          buttonText = '<svg width="14" height="14"><use href="sprite/sprite.svg#rule-deny" opacity="0.5"/></svg>';
+          buttonText = '<svg width="14" height="14"><use href="#rule-deny" opacity="0.5"/></svg>';
           break;
-        case 'denyByRule':    
-          buttonText = '<svg width="14" height="14"><use href="sprite/sprite.svg#rule-deny"/></svg>';
+        case 'denyByRule':
+          buttonText = '<svg width="14" height="14"><use href="#rule-deny"/></svg>';
           break;
-        case 'denyByBlocklist': 
-          buttonText = '<svg width="14" height="14"><use href="sprite/sprite.svg#rule-blocklist"/></svg>';
+        case 'denyByBlocklist':
+          buttonText = '<svg width="14" height="14"><use href="#rule-blocklist"/></svg>';
           break;
         default:
-            buttonText = '<svg width="14" height="14"><use href="sprite/sprite.svg#rule-allow" opacity="0.5"/></svg>';
+            buttonText = '<svg width="14" height="14"><use href="#rule-allow" opacity="0.5"/></svg>';
       }
       ruleButton.innerHTML = buttonText;
       ruleButton.dataset.action = isAllow ? 'allow' : 'deny';
     }
     if (row.detailsDiffer) {
       let ref = isAllow ? 'details-differ-red' : 'details-differ-green';
-      detailsButton.innerHTML = `<svg><use href="sprite/sprite.svg#${ref}"></use></svg>`;
+      detailsButton.innerHTML = `<svg><use href="#${ref}"></use></svg>`;
       detailsButtonIsVisible = true;
     }
   }
   if (detailsButtonIsVisible) {
     detailsButton.style.visibility = 'visible';
   } else {
-    detailsButton.innerHTML = '<svg><use href="sprite/sprite.svg#details-differ-green"></use></svg>';
+    detailsButton.innerHTML = '<svg><use href="#details-differ-green"></use></svg>';
     detailsButton.style.visibility = 'hidden';
   }
 }
@@ -1237,6 +1242,7 @@ function handleUpdateRuleButtons(rows) {
     attachRuleButton(el, row);
   }
 }
+window.handleUpdateRuleButtons = handleUpdateRuleButtons;
 
 let _scrollRafId = null;
 
@@ -1316,6 +1322,7 @@ function highlightRuleButtons(rowIds, action) {
 
   setTimeout(doScroll, 200);
 }
+window.highlightRuleButtons = highlightRuleButtons;
 
 // Per-row flash state: rowId -> { allow: {start} | null, deny: {start} | null, rafId: number | null }
 const _flashState = new Map();
@@ -1441,6 +1448,7 @@ function handleEvents(events) {
     }
   }
 }
+window.handleEvents = handleEvents;
 
 function handleSetInspector(msg) {
   setRowSelected(msg.row);
@@ -1521,3 +1529,4 @@ function handleSetInspector(msg) {
     });
   }
 }
+window.handleEvents = handleSetInspector;
